@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 claude-backup-v1/
 claude_archive/
+mapping.json
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
