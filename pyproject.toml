@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "claude-export-html"
+dynamic = ["version"]
+description = "Convert a Claude.ai data export into a browsable static HTML archive"
+readme = "README.en.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Egor Deev", email = "egor@deev.space" }]
+requires-python = ">=3.9"
+dependencies = []
+keywords = ["claude", "anthropic", "export", "archive", "html", "backup"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/EDeev/declaude"
+Issues = "https://github.com/EDeev/declaude/issues"
+Demo = "https://fe0.ru/declaude/"
+
+[project.scripts]
+declaude = "declaude.cli:main"
+
+[tool.hatch.version]
+path = "declaude/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["declaude"]
+
+[tool.hatch.build.targets.sdist]
+include = ["declaude", "tests", "README.md", "README.en.md", "LICENSE"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "S"]
+ignore = ["E501", "S110"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
