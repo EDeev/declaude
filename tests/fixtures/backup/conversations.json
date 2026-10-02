@@ -1,0 +1,13 @@
+[
+  {"uuid": "c-1", "name": "Нормализация до 3НФ", "created_at": "2026-02-03T09:00:00Z", "updated_at": "2026-02-03T09:30:00Z",
+   "chat_messages": [
+     {"uuid": "m-1", "sender": "human", "text": "Как привести таблицу к 3НФ?", "created_at": "2026-02-03T09:00:00Z", "content": [{"type": "text", "text": "Как привести таблицу к 3НФ?"}], "attachments": [], "files": []},
+     {"uuid": "m-2", "sender": "assistant", "text": "", "created_at": "2026-02-03T09:01:00Z", "content": [{"type": "text", "text": "## Шаги\n\n1. Убрать **повторяющиеся группы**\n2. Вынести *частичные* зависимости\n\n| Форма | Условие |\n|---|---|\n| 1НФ | атомарность |\n| 2НФ | нет частичных |\n\n```sql\nSELECT id, name FROM users WHERE id > 10;\n```\n\nСм. [документацию](https://www.postgresql.org/docs/) и `inline code`.\n\nОпасная ссылка: [клик](javascript:alert(1)) и картинка ![x](javascript:alert(2))\n\n<script>alert(3)</script>"}], "attachments": [], "files": []}
+   ]},
+  {"uuid": "c-2", "name": "", "created_at": "2026-02-10T12:00:00Z", "updated_at": "2026-02-10T12:05:00Z",
+   "chat_messages": [
+     {"uuid": "m-3", "sender": "human", "text": "Напиши функцию на Python", "created_at": "2026-02-10T12:00:00Z", "content": [{"type": "text", "text": "Напиши функцию на Python"}], "attachments": [], "files": []},
+     {"uuid": "m-4", "sender": "assistant", "text": "", "created_at": "2026-02-10T12:01:00Z", "content": [{"type": "text", "text": "```python\ndef add(a, b):\n    return a + b\n```"}], "attachments": [], "files": []}
+   ]},
+  {"uuid": "c-3", "name": "Пустой чат", "created_at": "2026-02-11T12:00:00Z", "updated_at": "2026-02-11T12:00:00Z", "chat_messages": []}
+]
