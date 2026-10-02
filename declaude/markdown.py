@@ -1,6 +1,7 @@
 """Minimal Markdown → HTML renderer with code highlighting, tables and safe links."""
 from __future__ import annotations
 
+import html
 import re
 from typing import List
 
@@ -8,6 +9,27 @@ from typing import List
 # ---------------------------------------------------------------------------
 # MarkdownRenderer
 # ---------------------------------------------------------------------------
+
+_SCHEME = re.compile(r"^([a-z][a-z0-9+.\-]*):")
+_LINK_SCHEMES = ("http", "https", "mailto")
+
+
+def _safe_url(url: str, image: bool = False) -> str:
+    """Allow only http(s)/mailto links and relative URLs; javascript:, data: and the like become "#".
+
+    The text is already HTML-escaped at this point, so the scheme is checked on the unescaped form
+    with control characters and spaces removed (browsers ignore them inside the scheme).
+    """
+    probe = re.sub(r"[\x00-\x20]", "", html.unescape(url)).lower()
+    m = _SCHEME.match(probe)
+    if m is None:
+        return url
+    if m.group(1) in _LINK_SCHEMES and not (image and m.group(1) == "mailto"):
+        return url
+    if image and probe.startswith("data:image/") and not probe.startswith("data:image/svg"):
+        return url
+    return "#"
+
 
 class MarkdownRenderer:
     """
@@ -300,10 +322,10 @@ class MarkdownRenderer:
     def _process_inline(self, text: str) -> str:
         # Images before links
         text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)',
-                      r'<img alt="\1" src="\2" loading="lazy">', text)
+                      lambda m: f'<img alt="{m.group(1)}" src="{_safe_url(m.group(2), image=True)}" loading="lazy">', text)
         # Links
         text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)',
-                      r'<a href="\2" target="_blank" rel="noopener">\1</a>', text)
+                      lambda m: f'<a href="{_safe_url(m.group(2))}" target="_blank" rel="noopener">{m.group(1)}</a>', text)
         # Bold+italic
         text = re.sub(r'\*\*\*(.+?)\*\*\*', r'<strong><em>\1</em></strong>', text)
         text = re.sub(r'___(.+?)___', r'<strong><em>\1</em></strong>', text)
